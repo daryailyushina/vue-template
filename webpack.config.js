@@ -280,6 +280,10 @@ module.exports = function(env = {}, options = {}) {
           use: scssLoader(),
         },
         {
+          test: /\.styl$/,
+          loader: 'style-loader!css-loader!stylus-loader'
+        },
+        {
           test: /\.js$/,
           use: 'babel-loader',
           include,

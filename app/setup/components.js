@@ -7,6 +7,7 @@ import eCheckbox from '@/components/e-checkbox';
 import eLabel from '@/components/e-label';
 import eProgress from '@/components/e-progress';
 import eInfoLabel from '@/components/e-info-label';
+import cDataGrid from '@/components/c-data-grid';
 
 export default {
   install(Vue) {
@@ -20,6 +21,7 @@ export default {
       eLabel,
       eProgress,
       eInfoLabel,
+      cDataGrid
     ];
 
     // This improves component usage in PhpStorm, while keeping optimized import in production
@@ -37,6 +39,7 @@ export default {
       Vue.component(eCheckbox.name, eCheckbox);
       Vue.component(eLabel.name, eLabel);
       Vue.component(eInfoLabel.name, eInfoLabel);
+      Vue.component(cDataGrid.name, cDataGrid);
     }
   },
 };
