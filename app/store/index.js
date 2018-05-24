@@ -13,6 +13,8 @@ import wishlist from './modules/wishlist';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
+  strict: process.env.NODE_ENV !== 'production',
+
   /**
    * state, actions & getters
    * must be defined within modules
