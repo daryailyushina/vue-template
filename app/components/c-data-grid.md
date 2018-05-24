@@ -1,7 +1,7 @@
 
 ```vue
 <template>
-  <c-data-grid :gridOptions="gridOptions"/>
+  <c-data-grid :gridOptions="gridOptions" :items="gridOptions.items"/>
 </template>
 
 <script>
@@ -11,6 +11,7 @@
         gridOptions: {
           max25chars: (v) => v.length <= 25 || 'Input too long!',
           search: '',
+          itemKey: 'name',
           headers: [
             {
               text: 'Name',

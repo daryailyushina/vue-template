@@ -55,6 +55,13 @@
             </c-collapse>
           </c-collapse-group>
         </div>
+        <div :class="b('details')">
+          <c-data-grid
+            :grid-options="gridOptions"
+            :items="product.tech_attributes"
+            @updateItems="onUpdateItems"
+          />
+        </div>
         <div :class="b('related')"> related</div>
         <div :class="b('accessories')"> accessories</div>
       </div>
@@ -89,9 +96,25 @@
     // mixins: [],
 
     // props: {},
-    // data() {
-    //   return {};
-    // },
+    data() {
+      return {
+        gridOptions: {
+          editLabel: 'Editieren',
+          rowsPerPageText: 'Reihen pro Seite:',
+          isSelectable: false,
+          itemKey: 'value',
+          headers: [
+            {
+              text: 'Name',
+              value: 'key_localized',
+            }, {
+              text: 'Value',
+              value: 'value',
+            }
+          ],
+        },
+      };
+    },
 
     computed: {
       ...mapGetters({
@@ -123,7 +146,11 @@
     methods: {
       ...mapActions({
         fetchErp: 'product/fetchErp',
-      })
+        updateTechAttributes: 'product/updateTechAttributes'
+      }),
+      onUpdateItems(items) {
+        this.updateTechAttributes(items);
+      }
     },
     // render() {},
   };

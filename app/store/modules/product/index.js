@@ -64,6 +64,10 @@ export default {
       state.product = data;
     },
 
+    setTechAttributes(state, data) {
+      state.product.tech_attributes = data;
+    },
+
     /**
      * Sets ERP data
      *
@@ -91,6 +95,10 @@ export default {
 
           throw new Error('apiFailure');
       });
+    },
+
+    updateTechAttributes(context, data) {
+      context.commit('setTechAttributes', data);
     },
   },
 };

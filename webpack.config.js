@@ -284,6 +284,10 @@ module.exports = function(env = {}, options = {}) {
           loader: 'style-loader!css-loader!stylus-loader'
         },
         {
+          test: /\.css$/,
+          use: [ 'style-loader', 'css-loader' ]
+        },
+        {
           test: /\.js$/,
           use: 'babel-loader',
           include,
