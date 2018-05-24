@@ -6,6 +6,7 @@
         v-bind="gridOptions"
         :items="localItems"
         :select-all="gridOptions.isSelectable"
+        :class="b('data-table')"
       >
         <template slot="items" slot-scope="props">
           <tr :active="props.selected" @click="props.selected = !props.selected && gridOptions.isSelectable">
@@ -106,6 +107,9 @@
 
 <style lang="scss">
   .c-data-grid {
+    &__data-table thead i {
+      transition: none !important;
+    }
   }
 
 </style>

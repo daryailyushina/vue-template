@@ -55,7 +55,7 @@
             </c-collapse>
           </c-collapse-group>
         </div>
-        <div :class="b('details')">
+        <div>
           <c-data-grid
             :grid-options="gridOptions"
             :items="product.tech_attributes"
@@ -107,9 +107,11 @@
             {
               text: 'Name',
               value: 'key_localized',
+              width: '50%',
             }, {
               text: 'Value',
               value: 'value',
+              width: '50%',
             }
           ],
         },
