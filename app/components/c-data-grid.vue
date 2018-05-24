@@ -4,6 +4,7 @@
       <v-data-table
         v-model="selected"
         v-bind="gridOptions"
+        :headers="localHeaders"
         :items="localItems"
         :select-all="gridOptions.isSelectable"
         :class="b('data-table')"
@@ -79,8 +80,34 @@
     },
 
     computed: {
+      /**
+       * Used for storing the model until it can be saved. This is as we don't want to manipulate the original
+       * store object.
+       *
+       * @returns {Array}
+       */
       localItems() {
         return this.items.map(x => Object.assign({}, x));
+      },
+
+      /**
+       * Adds styling class to all headers.
+       *
+       * @returns {Array}
+       */
+      localHeaders() {
+        return this.gridOptions.headers.map((object) => {
+          let headerClass = this.b('header-field');
+          const existingClass = object.class;
+
+          if (object.class) {
+            headerClass = `${existingClass} ${headerClass}`;
+          }
+
+          object.class = headerClass;
+
+          return object;
+        });
       }
     },
     // watch: {},
@@ -107,9 +134,11 @@
 
 <style lang="scss">
   .c-data-grid {
-    &__data-table thead i {
-      transition: none !important;
+    /* stylelint-disable */
+    .datatable thead th.c-data-grid__header-field i {
+      transition: none;
     }
+    /* stylelint-enable */
   }
 
 </style>
