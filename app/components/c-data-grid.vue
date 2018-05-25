@@ -6,12 +6,12 @@
         v-bind="gridOptions"
         :headers="localHeaders"
         :items="localItems"
-        :select-all="gridOptions.isSelectable"
+        :select-all="isSelectable"
         :class="b('data-table')"
       >
         <template slot="items" slot-scope="props">
-          <tr :active="props.selected" @click="props.selected = !props.selected && gridOptions.isSelectable">
-            <td v-if="gridOptions.isSelectable">
+          <tr :active="props.selected" @click="props.selected = !props.selected && isSelectable">
+            <td v-if="isSelectable">
               <v-checkbox
                 v-model="props.selected"
                 primary
@@ -26,8 +26,8 @@
                 <v-text-field
                   slot="input"
                   v-model="props.item[item.value]"
-                  :rules="gridOptions.rules"
-                  :label="gridOptions.editLabel"
+                  :rules="item.rules"
+                  :label="editLabel"
                   single-line
                   counter
                   @keyup.enter="onEditedItem"
@@ -64,13 +64,38 @@
     // mixins: [],
 
     props: {
+      /**
+       * Defines the options of the vuetify data-table. See https://vuetifyjs.com/en/components/data-tables for
+       * further details.
+       */
       gridOptions: {
         type: Object,
         required: true,
       },
+
+      /**
+       * Defines the items which should be rendered in the grid. The definition of the columns has to be set in the
+       * headers object in the gridOptions.
+       */
       items: {
         type: Array,
         required: true,
+      },
+
+      /**
+       * Defines the placeholder for the inline edit input field, if the text got removed.
+       */
+      editLabel: {
+        type: String,
+        default: 'Edit',
+      },
+
+      /**
+       * Defines if the items are selectable.
+       */
+      isSelectable: {
+        type: Boolean,
+        default: false,
       }
     },
     data() {
@@ -91,7 +116,7 @@
       },
 
       /**
-       * Adds styling class to all headers.
+       * Adds a default class to all headers for styling purposes.
        *
        * @returns {Array}
        */
@@ -125,6 +150,12 @@
 
     methods: {
       onEditedItem() {
+        /**
+         * Emits updateItems event after an item got edited and confirmed (enter key).
+         *
+         * @event updateItems
+         * @type {Array}
+         */
         this.$emit('updateItems', this.localItems);
       }
     },
@@ -136,7 +167,7 @@
   .c-data-grid {
     /* stylelint-disable */
     .datatable thead th.c-data-grid__header-field i {
-      transition: none;
+      transition: none; // This is a test to disable the animation on the sorting icon.
     }
     /* stylelint-enable */
   }

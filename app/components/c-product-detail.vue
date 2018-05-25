@@ -59,6 +59,8 @@
           <c-data-grid
             :grid-options="gridOptions"
             :items="product.tech_attributes"
+            :is-selectable="isSelectable"
+            :edit-label="editLabel"
             @updateItems="onUpdateItems"
           />
         </div>
@@ -98,10 +100,10 @@
     // props: {},
     data() {
       return {
+        isSelectable: false,
+        editLabel: 'Editieren',
         gridOptions: {
-          editLabel: 'Editieren',
           rowsPerPageText: 'Reihen pro Seite:',
-          isSelectable: false,
           itemKey: 'value',
           headers: [
             {
