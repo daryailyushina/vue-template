@@ -109,11 +109,15 @@
             {
               text: 'Name',
               value: 'key_localized',
-              width: '50%',
+              width: '30%',
             }, {
               text: 'Value',
               value: 'value',
-              width: '50%',
+              width: '30%',
+            }, {
+              text: 'Date',
+              value: 'date',
+              width: '30%',
             }
           ],
         },

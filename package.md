@@ -57,6 +57,7 @@ This will test the current state of CSS and JS code. Tests **MUST** be executed 
 * [vue-i18n](https://github.com/kazupon/vue-i18n) - Internationalization plugin for Vue.js
 * [vue-router](https://github.com/vuejs/vue-router) - The official router for Vue.js.
 * [vuex](https://github.com/vuejs/vuex) - Centralized State Management for Vue.js.
+//TODO: vuetify
 
 ## Dev-Dependencies
 
@@ -65,7 +66,7 @@ This will test the current state of CSS and JS code. Tests **MUST** be executed 
 None
 
 ### Template
-
+// TODO: new depencies
 * [axios-mock-adapter](https://github.com/ctimmerm/axios-mock-adapter) - Axios adapter that allows to easily mock requests.
 * [babel-core](https://github.com/babel/babel/tree/master/packages/babel-core) - Babel compiler core.
 * [babel-eslint](https://github.com/babel/babel-eslint) - babel-eslint allows you to lint ALL valid Babel code with the fantastic ESLint.

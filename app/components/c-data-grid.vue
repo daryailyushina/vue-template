@@ -20,6 +20,7 @@
             </td>
             <td v-for="(item) in gridOptions.headers" :key="item.value">
               <v-edit-dialog
+                v-if="item.value !== 'date'"
                 :return-value.sync="props.item[item.value]"
                 lazy
               > {{ props.item[item.value] }}
@@ -33,6 +34,27 @@
                   @keyup.enter="onEditedItem"
                 />
               </v-edit-dialog>
+              <v-layout v-if="item.value === 'date'" row justify-center>
+                <v-dialog
+                  ref="dialog"
+                  v-model="props.dateModal"
+                  max-width="290"
+                >
+                  <v-text-field
+                    slot="activator"
+                    v-model="props.item.date"
+                    label="Picker in dialog"
+                    prepend-icon="event"
+                    readonly
+                  />
+                  <v-date-picker v-model="props.item.date">
+                    <v-spacer/>
+                    <v-btn flat color="primary" @click="props.dateModal = false">Cancel</v-btn>
+                    <v-btn flat color="primary" @click="onDatePickerSave(props.index, props.item.date)">OK</v-btn>
+                  </v-date-picker>
+                </v-dialog>
+              </v-layout>
+              {{ props.item.date }}
             </td>
           </tr>
         </template>
@@ -45,20 +67,24 @@
 </template>
 
 <script>
-  import { VCheckbox, VAlert, VTextField } from 'vuetify';
-  import * as VGrid from 'vuetify/es5/components/VGrid';
-  import * as VDataTable from 'vuetify/es5/components/VDataTable';
   import 'material-design-icons-iconfont/dist/material-design-icons.css';
   import 'vuetify/dist/vuetify.min.css';
+  import * as VGrid from 'vuetify/es5/components/VGrid';
+  import * as VDataTable from 'vuetify/es5/components/VDataTable';
+  import * as VDatePicker from 'vuetify/es5/components/VDatePicker';
+  import { VCheckbox, VAlert, VTextField, VDialog, VBtn } from 'vuetify';
 
   export default {
     name: 'c-data-grid',
     components: {
+      ...VDataTable,
+      ...VGrid,
+      ...VDatePicker,
       VCheckbox,
       VAlert,
       VTextField,
-      ...VDataTable,
-      ...VGrid,
+      VBtn,
+      VDialog,
     },
     inheritAttrs: false,
     // mixins: [],
@@ -149,6 +175,9 @@
     // destroyed() {},
 
     methods: {
+      /**
+       * Called when an item has been edited and saved.
+       */
       onEditedItem() {
         /**
          * Emits updateItems event after an item got edited and confirmed (enter key).
@@ -156,6 +185,17 @@
          * @event updateItems
          * @type {Array}
          */
+        this.$emit('updateItems', this.localItems);
+      },
+
+      /**
+       * Called when a datepicker has been saved.
+       *
+       * @param {Number} index Index for ref
+       * @param {String} value Value to store
+       */
+      onDatePickerSave(index, value) {
+        this.$refs.dialog[index].save(value);
         this.$emit('updateItems', this.localItems);
       }
     },
