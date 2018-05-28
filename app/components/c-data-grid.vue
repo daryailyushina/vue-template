@@ -74,6 +74,11 @@
   import * as VDatePicker from 'vuetify/es5/components/VDatePicker';
   import { VCheckbox, VAlert, VTextField, VDialog, VBtn } from 'vuetify';
 
+  /**
+   * The data-grid component is to render a grid based on the vuetify data-table. See
+   * https://vuetifyjs.com/en/components/data-tables for further details. Options for the data-table can be
+   * set in the gridOptions property.
+   */
   export default {
     name: 'c-data-grid',
     components: {
