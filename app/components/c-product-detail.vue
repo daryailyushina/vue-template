@@ -14,7 +14,7 @@
           />
         </div>
         <div :class="b('gallery')">
-          gallery<br>
+          <c-swiper-gallery :images="images"/>
         </div>
 
         <div :class="b('specs')">
@@ -30,7 +30,6 @@
 
       <aside :class="b('sidebar', {area: 'top' })">
         <div :class="b('add-to-cart')">
-          availability
           <c-prices :price-gross="erp.priceGross" :price="erp.price"/>
           <c-add-to-cart :sku="product.sku" label/>
         </div>
@@ -50,8 +49,16 @@
         </div>
         <div :class="b('details')">
           <c-collapse-group>
-            <c-collapse v-if="product.tech_attributes" :title="$t('c-product-detail.technicalDataTitle')">
+            <c-collapse v-if="product.tech_attributes"
+                        :title="$t('c-product-detail.technicalDataTitle')"
+            >
               <c-attribute-grid :attributes="product.tech_attributes"/>
+            </c-collapse>
+            <c-collapse v-if="hasMedia" :title="$t('c-product-detail.productDocumentsTitle')">
+              <e-heading v-if="hasPdfDocuments" tag-name="h3" color="gray">{{ $t('c-product-detail.productPdfsTitle') }}</e-heading>
+              <c-linklist v-if="hasPdfDocuments" :items="product.media_attributes.productDataSheet"/>
+              <e-heading v-if="hasVideos" tag-name="h3" color="gray">{{ $t('c-product-detail.productVideosTitle') }}</e-heading>
+              <c-linklist v-if="hasVideos" :items="product.media_attributes.video"/>
             </c-collapse>
           </c-collapse-group>
         </div>
@@ -75,7 +82,6 @@
     </section>
 
   </div>
-
 </template>
 
 <script>
@@ -83,17 +89,21 @@
   import cAddToCart from '@/components/c-add-to-cart';
   import cPrices from '@/components/c-prices';
   import cAttributeGrid from '@/components/c-attribute-grid';
+  import cLinklist from '@/components/c-linklist';
   import cCollapseGroup from '@/components/c-collapse-group';
   import cCollapse from '@/components/c-collapse';
+  import cSwiperGallery from '@/components/c-swiper-gallery';
 
   export default {
     name: 'c-product-detail',
     components: {
+      cLinklist,
       cAddToCart,
       cPrices,
       cAttributeGrid,
       cCollapseGroup,
       cCollapse,
+      cSwiperGallery,
     },
     // mixins: [],
 
@@ -127,14 +137,46 @@
     computed: {
       ...mapGetters({
         /**
-         * Gets a product
-         *
-         * @returns  {Object}  product - Single product from the store
+         * Product detail getters
          */
-        product: 'product/product',
-        erp: 'product/erp',
         collapsible: 'product/collapsible',
-      })
+        erp: 'product/erp',
+        images: 'product/images',
+        product: 'product/product',
+      }),
+
+      /**
+       * Checks if this product has PDF documents (attribute of the "media-attributes"-Object)
+       *
+       * @returns {boolean}
+       */
+      hasPdfDocuments() {
+        if (Object.keys(this.product.media_attributes).length === 0) return false;
+
+        if (this.product.media_attributes.productDataSheet == null) return false;
+
+        if (Object.keys(this.product.media_attributes.productDataSheet).length === 0) return false;
+
+        return true;
+      },
+
+      /**
+       * Checks if this product has Videos (attribute of the "media-attributes"-Object)
+       *
+       * @returns {boolean}
+       */
+      hasVideos() {
+        if (Object.keys(this.product.media_attributes).length === 0) return false;
+
+        if (this.product.media_attributes.video == null) return false;
+
+        if (Object.keys(this.product.media_attributes.video).length === 0) return false;
+
+        return true;
+      },
+      hasMedia() {
+        return this.hasPdfDocuments || this.hasVideos;
+      }
     },
     // watch: {},
 
@@ -194,6 +236,7 @@
 
       @include media(sm) {
         display: flex;
+        max-width: 75%;
       }
     }
 
@@ -206,6 +249,8 @@
     }
 
     &__info {
+      @include z-index('info-label');
+
       position: absolute;
       top: $spacing--15;
       left: $spacing--0;
@@ -254,9 +299,12 @@
 
     &__gallery {
       border-bottom: 2px solid $color-grayscale--600;
+      padding: 0 $spacing--10;
 
       @include media(sm) {
         border: none;
+        max-width: 50%;
+        padding: 0 $spacing--60 0 $spacing--30;
       }
     }
 
@@ -296,14 +344,10 @@
     }
 
     &__description-text {
-      @include font($font-size--14, $line-height: 18px);
+      @include font($font-size--14, 18px);
 
       color: $color-grayscale--200;
-      padding: $spacing--10 $spacing--20;
-
-      @include media(sm) {
-        padding: $spacing--10 $spacing--30 $spacing--40 $spacing--30;
-      }
+      padding: $spacing--10 $spacing--20 $spacing--30 $spacing--20;
     }
 
     &__accessories {
