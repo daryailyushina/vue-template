@@ -37,24 +37,26 @@
               <v-layout v-if="item.value === 'date'" row justify-center>
                 <v-dialog
                   ref="dialog"
-                  v-model="props.dateModal"
                   max-width="290"
                 >
                   <v-text-field
                     slot="activator"
-                    v-model="props.item.date"
+                    v-model="props.item[item.value]"
                     label="Picker in dialog"
                     prepend-icon="event"
                     readonly
                   />
                   <v-date-picker v-model="props.item.date">
                     <v-spacer/>
-                    <v-btn flat color="primary" @click="props.dateModal = false">Cancel</v-btn>
-                    <v-btn flat color="primary" @click="onDatePickerSave(props.index, props.item.date)">OK</v-btn>
+                    <v-btn flat color="primary" @click="onDatePickerClose(props.index, props.item[item.value])">
+                      Cancel
+                    </v-btn>
+                    <v-btn flat color="primary" @click="onDatePickerSave(props.index, props.item[item.value])">
+                      OK
+                    </v-btn>
                   </v-date-picker>
                 </v-dialog>
               </v-layout>
-              {{ props.item.date }}
             </td>
           </tr>
         </template>
@@ -196,12 +198,22 @@
       /**
        * Called when a datepicker has been saved.
        *
-       * @param {Number} index Index for ref
-       * @param {String} value Value to store
+       * @param {Number} index Index for ref.
+       * @param {String} value Value to store.
        */
       onDatePickerSave(index, value) {
         this.$refs.dialog[index].save(value);
         this.$emit('updateItems', this.localItems);
+      },
+
+      /**
+       * Called after click on close of datepicker.
+       *
+       * @param {Number} index Index for ref.
+       * @param {String} value Value to fallback after cancel.
+       */
+      onDatePickerClose(index, value) {
+        this.$refs.dialog[index].save(value);
       }
     },
     // render() {},
