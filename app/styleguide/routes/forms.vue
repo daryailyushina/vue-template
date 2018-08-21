@@ -7,6 +7,7 @@
     <form>
       <e-label name="First name:" position="top">
         <e-input v-model="name.firstName" name="firstname" placeholder="..."/>
+        {{ name.firstName }}
       </e-label>
       <e-label name="Last name:" position="left">
         <e-input v-model="name.lastName" name="lastname" placeholder="..."/>

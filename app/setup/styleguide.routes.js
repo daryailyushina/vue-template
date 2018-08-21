@@ -10,6 +10,7 @@ import forms from '../styleguide/routes/forms';
 import collapse from '../styleguide/routes/collapse';
 import modals from '../styleguide/routes/modals';
 import swiper from '../styleguide/routes/swiper';
+import schwanCosmeticsTest from '../styleguide/routes/schwan-cosmetics';
 
 const root = '/styleguide';
 
@@ -111,6 +112,14 @@ export default [
     component: swiper,
     meta: {
       title: 'Swiper',
+    }
+  },
+  {
+    path: `${root}/schwan-cosmetics`,
+    name: 'schwan-cosmetics',
+    component: schwanCosmeticsTest,
+    meta: {
+      title: 'Schwan Cosmetics Test',
     }
   },
   {
